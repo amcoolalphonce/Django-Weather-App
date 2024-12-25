@@ -1,11 +1,14 @@
 from django.shortcuts import render
 import urllib.request
 import json
+from django.conf import settings
 
 def index(request):
+    api_key = settings.OPENWEATHER_API_KEY
     if request.method == 'POST':
         city = request.POST['city']
-        source = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=05f40e6e6f6c875717eb46a727da05dd').read()
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={api_key}'
+        source = urllib.request.urlopen(url).read()
         list_of_data = json.loads(source)
 
         data = {
