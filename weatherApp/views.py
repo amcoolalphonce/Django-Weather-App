@@ -4,10 +4,9 @@ import json
 
 def index(request):
     if request.method == 'POST':
-        city = request.POST['city'],
-        source = urllib.request.urlopen('api.openweathermap.org/data/3.0/weather?q=' 
-                                        + city + '&units=metric&appid=a0e8f2222f036bc452b7c48c015dffd6').read()
-        list_of_data = json.load(source)
+        city = request.POST['city']
+        source = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=05f40e6e6f6c875717eb46a727da05dd').read()
+        list_of_data = json.loads(source)
 
         data = {
             "country_code" : list_of_data ['sys']['country'],
@@ -20,7 +19,7 @@ def index(request):
             "description": str(list_of_data['weather'][0]['description']),
             "icon" : list_of_data['weather'][0]['icon'],
         }
-        print(data)
+        print(data) # dislay on the terminal
     else:
         data = {}
-    return render(request, 'weatherApp/index.html')
+    return render(request, 'weatherApp/index.html', {'data': data}) #use context
