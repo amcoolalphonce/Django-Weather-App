@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .weather-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .weather-info img {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city name" required>
+            <button type="submit">Get Weather</button>
+        </form>
+
+        {% if data %}
+        <div class="weather-info">
+            <h2>Weather in {{ data.city }}</h2>
+            <p><strong>Country Code:</strong> {{ data.country_code }}</p>
+            <p><strong>Coordinates:</strong> {{ data.coordinate }}</p>
+            <p><strong>Temperature:</strong> {{ data.temp }}</p>
+            <p><strong>Pressure:</strong> {{ data.pressure }}</p>
+            <p><strong>Humidity:</strong> {{ data.humidity }}</p>
+            <p><strong>Condition:</strong> {{ data.main }} - {{ data.description }}</p>
+            <img src="http://openweathermap.org/img/w/{{ data.icon }}.png" alt="Weather Icon">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
